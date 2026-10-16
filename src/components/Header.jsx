@@ -80,32 +80,39 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer & Backdrop */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={activeItem === item.name ? 'active' : ''}
-              onClick={() => {
-                setActiveItem(item.name);
-                setMobileMenuOpen(false);
-              }}
-            >
-              {item.name}
-            </a>
-          ))}
-          <a
-            href="https://wa.me/971509434364?text=Hi%20Veeserve"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mobile-drawer-btn"
+        <>
+          <div
+            className="mobile-drawer-backdrop"
             onClick={() => setMobileMenuOpen(false)}
-          >
-            Connect Us
-          </a>
-        </div>
+            aria-hidden="true"
+          />
+          <div className="mobile-drawer" role="dialog" aria-label="Mobile Navigation">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className={activeItem === item.name ? 'active' : ''}
+                onClick={() => {
+                  setActiveItem(item.name);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                {item.name}
+              </a>
+            ))}
+            <a
+              href="https://wa.me/971509434364?text=Hi%20Veeserve"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mobile-drawer-btn"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Connect Us
+            </a>
+          </div>
+        </>
       )}
     </header>
   );
