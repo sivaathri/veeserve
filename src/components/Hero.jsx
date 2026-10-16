@@ -27,7 +27,7 @@ export default function Hero() {
 
   return (
     <section className="hero-section" id="hero">
-      <div className="container-custom">
+      <div className="hero-container">
         <div className="hero-grid">
           {/* Left Column: Glass Box */}
           <div className="hero-content-col">
