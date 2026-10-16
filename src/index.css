@@ -108,6 +108,15 @@ body {
   background-color: #ffffff;
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.site-wrapper {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
 }
 
 a {
@@ -128,6 +137,10 @@ img {
   display: block;
 }
 
+embed, iframe, object, video {
+  max-width: 100%;
+}
+
 /* Top Banner Keyframe Animation */
 @keyframes lineMove {
   0% { left: -20px; }
@@ -140,8 +153,8 @@ img {
   max-width: var(--site-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: clamp(16px, 3.5vw, 24px);
+  padding-right: clamp(16px, 3.5vw, 24px);
 }
 
 /* ==========================================================================
@@ -169,8 +182,10 @@ img {
 .header-container {
   pointer-events: auto;
   width: 100%;
-  max-width: 100%;
-  padding: 22px 3vw 22px 24px;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 22px clamp(16px, 3vw, 36px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -312,42 +327,77 @@ img {
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 98;
+  animation: fadeIn 0.2s ease;
+}
+
 .mobile-drawer {
   position: fixed;
   top: 80px;
-  left: 5%;
-  right: 5%;
-  background: #ffffff;
+  left: 16px;
+  right: 16px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  padding: 20px 16px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   z-index: 99;
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mobile-drawer a {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 600;
   color: #111111;
-  padding: 10px 14px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.mobile-drawer a:hover {
+  background-color: rgba(24, 75, 84, 0.05);
+  color: var(--color-primary);
 }
 
 .mobile-drawer a.active {
   background-color: var(--color-bg-light);
   color: var(--color-primary);
+  font-weight: 700;
 }
 
 .mobile-drawer-btn {
   background-color: var(--color-gold-button);
   color: #fff;
   text-align: center;
-  padding: 12px;
+  padding: 13px;
   border-radius: 30px;
   font-weight: 600;
-  margin-top: 8px;
+  margin-top: 6px;
+  box-shadow: 0 4px 14px rgba(184, 138, 93, 0.28);
 }
 
 /* ==========================================================================
@@ -368,8 +418,10 @@ img {
 
 .hero-container {
   width: 100%;
-  max-width: 100%;
-  padding: 0 3vw 0 24px;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 clamp(16px, 3vw, 36px);
 }
 
 .hero-grid {
@@ -377,12 +429,13 @@ img {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 36px;
+  gap: clamp(24px, 3vw, 40px);
 }
 
 .hero-content-col {
-  flex: 0 1 920px;
-  max-width: 920px;
+  flex: 1 1 760px;
+  max-width: 860px;
+  min-width: 0;
   width: 100%;
 }
 
@@ -608,13 +661,13 @@ img {
 
 /* Right Column: Frosted Form Container */
 .visa-form-wrapper {
-  flex: 0 0 490px;
-  max-width: 490px;
+  flex: 0 0 460px;
+  max-width: 460px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: 50px;
+  margin-right: 0;
 }
 
 .visa-form {
@@ -801,11 +854,12 @@ img {
 
 .popup-search-box input {
   width: 100%;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
   border: 1px solid #e0e0e0;
-  font-size: 14px;
+  font-size: 16px;
   outline: none;
+  font-family: inherit;
 }
 
 .country-list {
@@ -2055,34 +2109,106 @@ img {
 }
 
 /* ==========================================================================
-   RESPONSIVE BREAKPOINTS (Desktop 1440, Laptop 1280, Tablet 768, Mobile 390)
+   COMPREHENSIVE RESPONSIVE DESIGN SYSTEM (ALL SCREEN SIZES)
    ========================================================================== */
-@media (max-width: 1200px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
+
+/* 1. Large Laptops / Smaller Desktops (<= 1440px) */
+@media (max-width: 1440px) {
+  .hero-content-col {
+    flex: 1 1 62%;
+  }
+  .visa-form-wrapper {
+    flex: 0 0 430px;
+    max-width: 430px;
   }
   .visa-form {
-    margin-left: 0;
+    padding: 38px 32px;
+  }
+  .glass-box {
+    padding: 48px 42px;
+  }
+  .hero-title {
+    font-size: 58px;
+  }
+}
+
+/* 2. Standard Laptops / Large Tablets Landscape (<= 1200px) */
+@media (max-width: 1200px) {
+  .header-nav {
+    gap: 20px;
+  }
+  .header-nav a {
+    font-size: 12.5px;
+  }
+  .hero-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 40px;
+  }
+  .hero-content-col {
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+  .glass-box {
+    padding: 44px 38px;
+    border-radius: 36px;
+  }
+  .hero-title {
+    font-size: 50px;
+  }
+  .visa-form-wrapper {
+    flex: 1 1 auto;
+    max-width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+  .visa-form {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 40px 36px;
   }
   .card-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   .footer-top {
     grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
   }
   .veeserve-grid {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .why-left-image {
+    max-height: 400px;
+    height: 380px;
+  }
+  .why-left-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
   .hero-card {
     grid-column: auto;
   }
   .why-points-grid {
     grid-column: auto;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .visa-problem-container {
+    grid-template-columns: 40% 60%;
+    gap: 28px;
+  }
+  .visa-problem-left {
+    padding: 40px 30px;
+  }
+  .visa-problem-title {
+    font-size: 42px;
   }
 }
 
-@media (max-width: 991px) {
+/* 3. Tablets / Small Laptops (<= 1024px) */
+@media (max-width: 1024px) {
   .header-nav {
     display: none;
   }
@@ -2092,125 +2218,569 @@ img {
   .mobile-menu-toggle {
     display: flex;
   }
+  .hero-section {
+    padding-top: 110px;
+    padding-bottom: 60px;
+    min-height: auto;
+  }
   .hero-title {
-    font-size: 38px;
+    font-size: 44px;
+  }
+  .glass-box {
+    padding: 38px 32px;
+    border-radius: 32px;
+  }
+  .how-it-works {
+    padding: 80px 20px;
+  }
+  .how-it-works h2 {
+    font-size: 36px;
+  }
+  .step-item {
+    grid-template-columns: 220px 1fr 50px;
+    gap: 20px;
+    padding: 20px 24px;
+  }
+  .process-section {
+    padding: 80px 20px;
   }
   .process-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .why-points-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   .visa-problem-container {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
   .visa-problem-left {
     position: relative;
     top: auto;
-    padding: 40px 30px;
+    padding: 36px 30px;
+  }
+  .visa-problem-right {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
   }
   .promo-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   .vs-consult__modes {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .vs-mode {
+    padding: 12px;
+  }
+  .vs-mode__title {
+    font-size: 13px;
+  }
+  .vs-mode__desc {
+    font-size: 11px;
   }
   .footer-top {
     grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
   }
 }
 
-@media (max-width: 767px) {
+/* 4. Portrait Tablets & Large Phones (<= 768px) */
+@media (max-width: 768px) {
   .hero-section {
     padding-top: 100px;
+    padding-bottom: 50px;
   }
   .hero-title {
-    font-size: 32px;
+    font-size: 36px;
+  }
+  .hero-desc {
+    font-size: 16px;
+    margin-bottom: 24px;
   }
   .glass-box {
-    padding: 28px 20px;
+    padding: 32px 24px;
     border-radius: 28px;
   }
   .visa-glass-wrap {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .visa-item .text-box h4 {
+    white-space: normal;
+  }
+  .how-it-works {
+    padding: 70px 16px;
   }
   .how-it-works .section-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    margin-bottom: 40px;
   }
   .how-it-works h2 {
-    font-size: 30px;
+    font-size: 32px;
   }
   .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .step-arrow {
+    align-self: flex-end;
+  }
+  .schengen-section {
+    padding: 70px 16px;
+  }
+  .schengen-section .header h2 {
+    font-size: 34px;
+  }
+  .process-section {
+    padding: 70px 16px;
+  }
+  .process-heading h2 {
+    font-size: 32px;
+  }
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .why-veeserve {
+    padding: 70px 16px;
+  }
+  .why-left-image {
+    max-height: 280px;
+    height: 280px;
+  }
+  .hero-card {
+    padding: 32px 24px;
+  }
+  .hero-card h2 {
+    font-size: 32px;
+  }
+  .why-points-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .visa-problem-section {
+    padding: 70px 16px;
+  }
+  .visa-problem-left {
+    padding: 30px 22px;
+  }
+  .visa-problem-title {
+    font-size: 32px;
+  }
+  .visa-problem-right {
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 20px;
+  }
+  .visa-problem-card {
+    padding: 26px 22px;
+    min-height: auto;
+  }
+  .visa-problem-number {
+    font-size: 60px;
+    margin-bottom: 10px;
+  }
+  .promo-section {
+    padding: 50px 16px;
+  }
+  .promo-card {
+    padding: 32px 24px;
+  }
+  .promo-card h2 {
+    font-size: 26px;
+  }
+  .informational-section {
+    padding: 70px 16px;
+  }
+  .informational-container {
+    padding-left: 22px;
+  }
+  .informational-container h3 {
+    font-size: 26px;
+  }
+  .vs-consult__hero {
+    padding: 56px 20px 70px;
+  }
+  .vs-consult__title {
+    font-size: 32px;
+  }
+  .vs-consult__body {
+    padding: 0 16px;
+    margin-top: -48px;
+  }
+  .vs-consult__card {
+    padding: 28px 20px;
+  }
+  .vs-consult__modes {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .vs-consult__urgent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 20px 18px;
+  }
+  .vs-urgent__btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .faq-section {
+    padding: 70px 16px;
+  }
+  .faq-header h2 {
+    font-size: 32px;
+  }
+  .footer-wrapper {
+    padding: 60px 16px 28px;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-bottom: 40px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+  .footer-socials {
+    justify-content: center;
+  }
+}
+
+/* 5. Standard Phones (<= 640px) */
+@media (max-width: 640px) {
+  .hero-section {
+    padding-top: 86px;
+    padding-bottom: 36px;
+    background-position: center top;
+  }
+  .hero-container {
+    padding: 0 14px;
+  }
+  .glass-box {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+  .top-banner {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .top-banner .text {
+    font-size: 12.5px;
+    letter-spacing: 1.5px;
+  }
+  .top-banner .line {
+    width: 28px;
+  }
+  .hero-title {
+    font-size: clamp(28px, 8vw, 34px);
+    line-height: 1.15;
+    margin: 12px 0 14px;
+    letter-spacing: -0.5px;
+  }
+  .hero-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .visa-glass-wrap {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .visa-item {
+    padding: 12px 14px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+  .visa-item .icon-box {
+    width: 40px;
+    height: 40px;
+  }
+  .visa-item .icon-box svg {
+    width: 20px;
+    height: 20px;
+  }
+  .visa-item .text-box .label {
+    font-size: 11px;
+  }
+  .visa-item .text-box h4 {
+    font-size: 14px;
+    white-space: normal;
+  }
+  .country-selector {
+    margin-bottom: 20px;
+  }
+  .country-btn {
+    height: auto;
+    min-height: 52px;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 16px;
+  }
+  .country-left {
+    gap: 12px;
+  }
+  .country-left .globe-icon {
+    font-size: 20px;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-radius: 30px;
+  }
+  .visa-form {
+    padding: 26px 18px;
+    border-radius: 22px;
+  }
+  .visa-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .visa-form label {
+    font-size: 11.5px;
+    margin-bottom: 6px;
+  }
+  .visa-form input {
+    padding: 14px 16px;
+    font-size: 16px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+  }
+  .visa-form button[type="submit"] {
+    padding: 14px;
+    font-size: 15.5px;
   }
   .process-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
   .process-item {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     text-align: left;
-    padding: 12px 16px;
+    padding: 14px 16px;
     background: #f9fbfd;
+    border-radius: 16px;
+    border: 1px solid #f0f3f6;
   }
   .process-item .icon-wrap {
     margin: 0;
-    width: 52px;
-    height: 52px;
-    font-size: 20px;
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+    flex-shrink: 0;
   }
   .process-item h3 {
     max-width: none;
     margin: 0;
-  }
-  .why-points-grid {
-    grid-template-columns: 1fr;
-  }
-  .visa-problem-right {
-    grid-template-columns: 1fr;
+    font-size: 14px;
   }
   .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .destination-card {
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
   }
   .card-overlay {
-    flex-direction: column;
-    justify-content: center;
+    padding: 16px 18px;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    gap: 8px;
-    padding: 14px;
+    text-align: left;
   }
   .card-overlay h3 {
-    font-size: 15px;
+    font-size: 18px;
   }
   .glass-btn {
-    font-size: 11px;
-    padding: 6px 12px;
+    font-size: 12px;
+    padding: 7px 14px;
   }
-  .footer-top {
-    grid-template-columns: 1fr;
+  .promo-card {
+    padding: 26px 18px;
+    border-radius: 18px;
   }
-  .footer-bottom {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  .promo-card h2 {
+    font-size: 22px;
+  }
+  .promo-card p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .promo-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 14px;
+  }
+  .informational-container {
+    padding-left: 16px;
+    border-left-width: 3px;
+  }
+  .informational-container h3 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .informational-container p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .vs-consult__hero {
+    padding: 44px 14px 60px;
+  }
+  .vs-consult__title {
+    font-size: 26px;
+  }
+  .vs-consult__subtitle {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .vs-consult__card {
+    padding: 22px 14px;
+    border-radius: 16px;
+  }
+  .vs-consult__label {
+    font-size: 12px;
+  }
+  .vs-mode {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  .vs-mode__icon {
+    width: 30px;
+    height: 30px;
+  }
+  .vs-mode__title {
+    font-size: 13.5px;
+  }
+  .vs-mode__desc {
+    font-size: 11.5px;
+  }
+  .vs-consult__urgent {
+    padding: 16px 14px;
+  }
+  .vs-urgent__title {
+    font-size: 13.5px;
+  }
+  .vs-urgent__desc {
+    font-size: 12px;
+  }
+  .faq-question {
+    padding: 15px 16px;
+    font-size: 15px;
+    gap: 10px;
+  }
+  .faq-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  .faq-answer {
+    padding: 0 16px 16px;
+    font-size: 13.5px;
+    line-height: 1.65;
   }
   .floating-consultation-bar {
-    bottom: 16px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
-    right: auto;
     padding: 4px 6px;
+    gap: 6px;
+    width: auto;
+    max-width: calc(100vw - 24px);
+  }
+  .floating-consultation-bar .whatsapp-circle,
+  .floating-consultation-bar .phone-circle {
+    width: 36px;
+    height: 36px;
+  }
+  .floating-consultation-bar .whatsapp-circle svg {
+    width: 18px;
+    height: 18px;
+  }
+  .floating-consultation-bar .phone-circle svg {
+    width: 15px;
+    height: 15px;
   }
   .floating-consultation-bar .consultation-pill {
     font-size: 12px;
-    padding: 6px 12px;
+    padding: 8px 12px;
+  }
+  .scroll-top-btn {
+    left: auto;
+    right: 14px;
+    bottom: 68px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* 6. Ultra-Compact / Narrow Mobile Devices (<= 380px) */
+@media (max-width: 380px) {
+  .header-logo-pill {
+    padding: 5px 12px;
+  }
+  .header-logo-pill img {
+    height: 28px;
+  }
+  .glass-box {
+    padding: 20px 14px;
+    border-radius: 18px;
+  }
+  .hero-title {
+    font-size: 26px;
+  }
+  .visa-form {
+    padding: 22px 14px;
+    border-radius: 18px;
+  }
+  .floating-consultation-bar .consultation-pill {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .floating-consultation-bar .whatsapp-circle,
+  .floating-consultation-bar .phone-circle {
+    width: 32px;
+    height: 32px;
+  }
+  .step-item {
+    padding: 16px 14px;
+  }
+  .why-point-card {
+    padding: 18px 14px;
+  }
+  .visa-problem-card {
+    padding: 20px 14px;
+  }
+  .promo-card {
+    padding: 22px 14px;
   }
 }
