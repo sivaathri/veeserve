@@ -26,10 +26,10 @@ export default function Header() {
   ];
 
   return (
-    <header className="header-wrapper">
-      <div className={`header-pill ${isScrolled ? 'is-scrolled' : ''}`}>
-        {/* Left Logo */}
-        <div className="header-logo">
+    <header className={`header-wrapper ${isScrolled ? 'is-scrolled' : ''}`}>
+      <div className="header-container">
+        {/* Left: Frosted Glass Capsule for Logo */}
+        <div className="header-logo-pill">
           <a href="#" aria-label="Veeserve Visa Services Home">
             <img
               src="/assets/images/veeservelogo.png"
@@ -40,7 +40,7 @@ export default function Header() {
           </a>
         </div>
 
-        {/* Center Nav Menu */}
+        {/* Center: Clean Floating Navigation Menu */}
         <nav className="header-nav" aria-label="Main Navigation">
           {navItems.map((item) => (
             <a
@@ -49,32 +49,35 @@ export default function Header() {
               className={activeItem === item.name ? 'active' : ''}
               onClick={() => setActiveItem(item.name)}
             >
-              <span>{item.name}</span>
+              <span className="nav-line"></span>
+              <span className="nav-text">{item.name}</span>
             </a>
           ))}
         </nav>
 
-        {/* Right CTA Button */}
-        <a
-          href="https://wa.me/971509434364?text=Hi%20Veeserve"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="header-btn"
-        >
-          Connect Us
-        </a>
+        {/* Right: Golden Pill CTA Button & Mobile Toggle */}
+        <div className="header-cta-wrap">
+          <a
+            href="https://wa.me/971509434364?text=Hi%20Veeserve"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="header-btn"
+          >
+            Connect Us
+          </a>
 
-        {/* Mobile Hamburger Toggle */}
-        <button
-          className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle navigation menu"
-          aria-expanded={mobileMenuOpen}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+          {/* Mobile Hamburger Toggle */}
+          <button
+            className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}
